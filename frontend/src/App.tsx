@@ -1,8 +1,35 @@
-import { useState } from "react";
+import { Navigate, Route, Routes } from "react-router-dom";
+import LoginPage from "./features/auth/pages/LoginPage";
+import DashboardPage from "./features/dashboard/pages/DashboardPage";
+import type { JSX } from "react";
+
+function ProtectedRoute({ children }: { children: JSX.Element }) {
+  const token = localStorage.getItem("token");
+
+  if (!token) {
+    return <Navigate to="/login" replace />;
+  }
+
+  return children;
+}
 
 function App() {
   return (
-    <h1 className="text-3xl font-bold text-emerald-400">TrackIt – logowanie</h1>
+    <Routes>
+      <Route path="/login" element={<LoginPage />} />
+
+      <Route
+        path="/"
+        element={
+          <ProtectedRoute>
+            <DashboardPage />
+          </ProtectedRoute>
+        }
+      />
+
+      {/* fallback: cokolwiek innego → na główny widok */}
+      <Route path="*" element={<Navigate to="/" replace />} />
+    </Routes>
   );
 }
 

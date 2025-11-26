@@ -1,7 +1,7 @@
 // controllers/auth.controller.js
 const jwt = require("jsonwebtoken");
 const { JWT_SECRET } = require("../config");
-const { MOCK_USER } = require("../data/db");
+const { MOCK_USER, MOCK_ADMIN } = require("../data/db");
 
 function login(req, res) {
   const { email, password } = req.body;
